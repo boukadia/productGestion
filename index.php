@@ -120,7 +120,7 @@ $produits = $produitManager->displayAll();
 
   
   <div class="container mt-5">
-    <h2 class="mb-4">Ajouter un Produit</h2>
+    <h2 class="mb-4">Ajouter user</h2>
     <form method="POST" action="./user/insert.php">
       <div class="mb-3">
         <label for="Nom" class="form-label">Nom </label>
