@@ -1,16 +1,16 @@
 <?php
-require_once 'classes/ProduitManager.php';
+require_once '../classes/ProduitManager.php';
 $produitManager = new ProduitManager();
 $produit = $produitManager->getProduit($_GET['produitId']);
 
 if($_POST['btnSubmit'])
 {
-    $produit->setNom($_POST['name']);
+    $produit->setNomProduit($_POST['nomProduit']);
     $produit->setDescription($_POST['description']);
     $produit->setPrix($_POST['prix']);
     $produit->setQuantity($_POST['quantity']);
     $produitManager->update($produit);
-    header('Location: /produits/index.php');
+    header('Location: ../index.php');
 }    
 
 ?>
@@ -23,7 +23,7 @@ if($_POST['btnSubmit'])
 </head>
 <body>
     <form action="">
-        <input type="text" name="name" value="<?= $produit->getNom(); ?>">
+        <input type="text" name="name" value="<?= $produit->getNomProduit(); ?>">
         <input type="text" name="description" value="<?= $produit->getDescription(); ?>">
         <input type="text" name="prix" value="<?= $produit->getPrix(); ?>">
         <input type="text" name="quantity" value="<?= $produit->getQuantity(); ?>">

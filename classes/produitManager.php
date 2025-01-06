@@ -1,5 +1,7 @@
 <?php
-require_once '../Database.php';
+// require '../database.php';
+require($_SERVER['DOCUMENT_ROOT'] . '/produitGestion/database.php');
+
 require_once 'produit.php';
 
 
@@ -13,7 +15,7 @@ class produitManager
         $produits = $stmt->fetchAll();
         $data = [];
         foreach ($produits as $produit) {
-            $data[] = new produit($produit['produitId'], $produit['name'], $produit['description'], $produit['prix'], $produit['quantity']);
+            $data[] = new produit($produit['produitId'], $produit['nomProduit'], $produit['description'], $produit['prix'], $produit['quantity']);
         }
         return $data;// [ produit, produit, produit]
     }
@@ -36,15 +38,52 @@ class produitManager
             ':produitId' => $produitId
         ]);
         $produit = $stmt->fetch();
-        return new produit($produit['produitId'], $produit['name'], $produit['description'], $produit['prix'], $produit['quantity']);
+        return new produit($produit['produitId'], $produit['nomProduit'], $produit['description'], $produit['prix'], $produit['quantity']);
     }
+    // ==========================================insert dans database======================================================
+
+    public function insert($nomProduit,$description,$prix,$quantity){
+        $connect = Database::getConnection();
+        $stmt=$connect->prepare("insert into produits(nomProduit,description,prix,quantity) values(?,?,?,?)");
+        $stmt->execute([$nomProduit,$description,$prix,$quantity]);
+        
+        
+    }
+
+    // =================================================================================================================
+// ================================affichage des produits=====================
+public function affichage(){
+    $connect = Database::getConnection();
+    $stmt = $connect->prepare("SELECT * FROM produits");
+    $stmt->execute();
+    
+    while ($produit = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        echo "<tbody>
+            <tr>
+                <td>" . htmlspecialchars($produit['nomProduit']) . "</td>
+                <td>" . htmlspecialchars($produit['description']) . "</td>
+                <td>" . htmlspecialchars($produit['prix']) . "</td>
+                <td>" . htmlspecialchars($produit['quantity']) . "</td>
+                <td>
+                    <a href='./produits/edit.php?produitId=" . $produit['produitId'] . "'>Edit</a>
+                    <a href='./produits/delete.php?produitId=" . $produit['produitId'] . "'>Delete</a>
+                </td>
+            </tr>
+        </tbody>";
+    }
+    
+}
+
+
+
+
 
     public function update(produit $produit)
     {
         $conn = Database::getConnection();
-        $stmt = $conn->prepare("UPDATE produits SET name = :name, description = :description, prix = :prix, quantity = :quantity WHERE produitId = :produitId");
+        $stmt = $conn->prepare("UPDATE produits SET nomProduit = :nomProduit, description = :description, prix = :prix, quantity = :quantity WHERE produitId = :produitId");
         $stmt->execute([
-            ':name' => $produit->getNom(),
+            ':nomProduit' => $produit->getNomProduit(),
             ':description' => $produit->getDescription(),
             ':prix' => $produit->getPrix(),
             ':quantity' => $produit->getQuantity(),

@@ -1,9 +1,11 @@
 <?php
 
+
+
 class produit
 {
     private $produitId;
-    private $nom;
+    private $nomProduit;
     private $description;
     private $prix;
     private $quantity;
@@ -13,9 +15,9 @@ class produit
         return $this->produitId;
     }
 
-    public function getNom()
+    public function getNomProduit()
     {
-        return $this->nom;
+        return $this->nomProduit;
     }
 
     public function getDescription()
@@ -33,13 +35,13 @@ class produit
         return $this->quantity;
     }
 
-    public function setNom($nom)
+    public function setNomProduit($nomProduit)
     {
-        if(!$nom){
-            echo "nom is required";
+        if(!$nomProduit){
+            echo "nomProduit is required";
             return;
         }
-        $this->nom = $nom;
+        $this->nomProduit = $nomProduit;
     }
 
     public function setDescription($description)
@@ -56,25 +58,25 @@ class produit
     {
         $this->quantity = $quantity;
     }
-    public function __construct($produitId, $nom, $description, $prix, $quantity)
+    public function __construct($produitId, $nomProduit, $description, $prix, $quantity)
     {
-        echo "produit object is created\n";
+        
         $this->produitId = $produitId;
-        $this->nom = $nom;
+        $this->nomProduit = $nomProduit;
         $this->description = $description;
         $this->prix = $prix;
         $this->quantity = $quantity;
     }
 
-    public function __destruct()
-    {
-        echo "produit object is destroyed\n";
-    }
+    // public function __destruct()
+    // {
+    //     echo "produit object is destroyed\n";
+    // }
 
     public function rendreRow()
     {
         return "<tr>
-                    <td>$this->nom</td>
+                    <td>$this->nomProduit</td>
                     <td>$this->description</td>
                     <td>$this->prix</td>
                     <td>$this->quantity</td>
