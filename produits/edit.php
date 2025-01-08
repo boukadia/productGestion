@@ -21,8 +21,9 @@ if (isset($_POST['submit'])) {
     $description = $_POST['description'];
     $prix = $_POST['prix'];
     $quantity = $_POST['quantity'];
-    $stmt = $connect->prepare("update produits set nomProduit=?,description=?,prix=?,quantity=? where produitId=?");
-    $stmt->execute([$nomProduit, $description, $prix, $quantity, $produitId]);
+    $image = $_POST['image'];
+    $stmt = $connect->prepare("update produits set nomProduit=?,description=?,prix=?,quantity=?,image=? where produitId=?");
+    $stmt->execute([$nomProduit, $description, $prix, $quantity, $produitId,$image]);
 }
 ?>
 <!DOCTYPE html>

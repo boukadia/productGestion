@@ -102,6 +102,11 @@ $produits = $produitManager->displayAll();
       </div>
 
       <div class="mb-3">
+        <label for="image" class="form-label">image</label>
+        <input name="image" type="url" step="0.01" class="form-control" id="image" placeholder="Entrez l'image" required>
+      </div>
+
+      <div class="mb-3">
         <label for="quantite" class="form-label">Quantite</label>
         <input name="quantity" type="number" class="form-control" id="quantite" placeholder="Entrez la quantité" required>
       </div>

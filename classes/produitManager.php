@@ -42,11 +42,11 @@ class produitManager
     // }
     // ==========================================insert dans database======================================================
 
-    public function insert($nomProduit, $description, $prix, $quantity)
+    public function insert($nomProduit, $description, $prix, $quantity,$image)
     {
         $connect = Database::getConnection();
-        $stmt = $connect->prepare("insert into produits(nomProduit,description,prix,quantity) values(?,?,?,?)");
-        $stmt->execute([$nomProduit, $description, $prix, $quantity]);
+        $stmt = $connect->prepare("insert into produits(nomProduit,description,prix,quantity,image) values(?,?,?,?,?)");
+        $stmt->execute([$nomProduit, $description, $prix, $quantity,$image]);
     }
 
     // =================================================================================================================
@@ -65,12 +65,14 @@ class produitManager
         $description = $product['description'];
         $prix = $product['prix'];
         $quantity = $product['quantity'];
+        $image = $product['image'];
         echo "
     <form method='post' action=''>
     <input type='text' name='nomProduit' value='$nomProduit'>
     <input type='text' name='description' value=' $description'>
     <input type='text' name='prix' value=' $prix'>
     <input type='text' name='quantity' value=' $quantity'>
+    <input type='text' name='quantity' value=' $image'>
     <button type='submit' name='submit'>Modifier</button>
 </form>";
     }
@@ -90,6 +92,7 @@ class produitManager
                 <td>" . htmlspecialchars($produit['description']) . "</td>
                 <td>" . htmlspecialchars($produit['prix']) . "</td>
                 <td>" . htmlspecialchars($produit['quantity']) . "</td>
+                <td>" . htmlspecialchars($produit['image']) . "</td>
                 <td>
                     <a href='./produits/edit.php?produitId=" . $produit['produitId'] . "'>Edit</a>
                     <a href='./produits/delete.php?produitId=" . $produit['produitId'] . "'>Delete</a>

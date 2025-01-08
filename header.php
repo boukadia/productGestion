@@ -111,6 +111,55 @@
         .btn-custom:hover {
             background-color: #e03e31;
         }
+        
+    .card {
+      border-radius: 10px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #007bff;
+    }
+
+    .card-text {
+      font-size: 1rem;
+      color: #555;
+    }
+
+    .card-footer {
+      background-color: #fff;
+      border-top: 0;
+    }
+
+    .btn-primary {
+      background-color: #007bff;
+      border-color: #007bff;
+    }
+
+    .btn-primary:hover {
+      background-color: #0056b3;
+      border-color: #004085;
+    }
+
+    .product-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .product-card {
+      flex: 1 1 calc(33.333% - 20px);
+      max-width: calc(33.333% - 20px);
+      text-align: center;
+    }
     </style>
 </head>
 <body>
