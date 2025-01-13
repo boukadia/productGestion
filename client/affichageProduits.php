@@ -1,4 +1,9 @@
 <?php
+session_start();
+if (!isset($_SESSION['userId']) || $_SESSION['role']!=="client") {
+  header("location: ../classes/login.php");
+} 
+
 require_once($_SERVER['DOCUMENT_ROOT'] . '/produitGestion/header.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/produitGestion/database.php');
 ?>

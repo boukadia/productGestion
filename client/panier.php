@@ -115,16 +115,14 @@ if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
         </div>
       </div>
         ";
-            } else {
-                echo "<p>produit not found $produitId.</p>";
-            }
+            } 
         }
         ?>
     </div>
     <div class="checkout-summary">
         <h2>Total prix: <?php echo $totalprix; ?> $</h2>
 
-        <form action="../../function/orders/checkout.php" method="post">
+        <form action="./commande.php?" method="POST">
             <button type="submit">confirm order</button>
         </form>
     </div>

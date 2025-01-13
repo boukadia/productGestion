@@ -4,33 +4,75 @@
 
 class user
 {
-    private $nom;
-    private $email;
-    private $password;
-    private $role;
-    private $status;
-    private $userId;
+  private $nom;
+  private $email;
+  private $password;
+  private $role;
+  private $status;
+  private $userId;
 
-    public function addUser($nom, $email, $password, $role, $status)
-    {
-        $connect = Database::getConnection();
+  public function addUser($nom, $email, $password)
+  {
 
-        $this->nom = $nom;
-        $this->email = $email;
-        $this->password = $password;
-        $this->role = $role;
-        $this->status = $status;
-        $stmt = $connect->prepare("insert into users(nom,email,password,role,status) values(?,?,?,?,?)");
-        $stmt->execute([$nom, $email, $password, $role, $status]);
+    $connect = Database::getConnection();
+    $this->nom = $nom;
+    $this->email = $email;
+    $this->password = $password;
+
+
+
+    $stmt = $connect->prepare("SELECT email FROM users where email=?");
+    $stmt->execute([$email]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    // var_dump($user);
+    if ($user) {
+      echo "<div id='alert' class='alert alert-success'>succes registeration </div>";
+      return;
     }
-    public function affichage()
-    {
-        $connect = Database::getConnection();
-        $stmt = $connect->prepare("select * from users");
-        $stmt->execute();
 
-        while ($user = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            echo "<tbody>
+    $hashPassword = password_hash($password, PASSWORD_DEFAULT);
+    $stmt = $connect->prepare("insert into users(nom,email,password) values(?,?,?)");
+    $stmt->execute([$nom, $email, $hashPassword]);
+  }
+
+
+
+  public function login($email, $password)
+  {
+    $connect = Database::getConnection();
+    $stmt = $connect->prepare("SELECT * FROM users where email=?");
+    $stmt->execute([$email]);
+    $user = $stmt->fetch();
+    if ($user && password_verify($password, $user['password'])) {
+      $_SESSION['userId'] = $user['userId'];
+      $_SESSION['email'] = $user['email'];
+      $_SESSION['role'] = $user['role'];
+      // var_dump($user);
+      if ($user['role'] == "admin") {
+        header("Location: ./index.php");
+        exit();
+      } else {
+        echo $user['password'];
+
+        header("Location: ./client/affichageProduits.php");
+        exit();
+      }
+    } else {
+      echo "errerdkf";
+    }
+  }
+
+
+
+
+  public function affichage()
+  {
+    $connect = Database::getConnection();
+    $stmt = $connect->prepare("select * from users");
+    $stmt->execute();
+
+    while ($user = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      echo "<tbody>
         <tr>
         <td>" . htmlspecialchars($user['nom']) . "</td>
         <td>" . htmlspecialchars($user['email']) . "</td>
@@ -42,26 +84,28 @@ class user
         </td>
         </tr>
         </tbody>";
-        }
     }
-    public function deleteUser($userId) {
-        $connect=Database::getConnection();
-        $stmt=$connect->prepare("delete  from  users where userId=?");
-        $stmt->execute([$userId]);
-    }
-    public function updateUser($userId) {
-        $connect=database::getConnection();
-        $stmt=$connect->prepare("select * from users where userId=?");
-        $stmt->execute([$userId]);
-        $user=$stmt->fetch(PDO::FETCH_ASSOC);
-        $nom=$user['nom'];
-        $role=$user['role'];
-        $email=$user['email'];
-        $status=$user['status'];
-        echo$email;
-        
+  }
+  public function deleteUser($userId)
+  {
+    $connect = Database::getConnection();
+    $stmt = $connect->prepare("delete  from  users where userId=?");
+    $stmt->execute([$userId]);
+  }
+  public function updateUser($userId)
+  {
+    $connect = database::getConnection();
+    $stmt = $connect->prepare("select * from users where userId=?");
+    $stmt->execute([$userId]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    $nom = $user['nom'];
+    $role = $user['role'];
+    $email = $user['email'];
+    $status = $user['status'];
+    echo $email;
 
-echo "
+
+    echo "
         <div class='container mt-5'>
         <h2 class='mb-4'>Ajouter user</h2>
         <form method='POST' action=''>
@@ -90,7 +134,5 @@ echo "
         </form>
       </div>'
     ";
-
-       
-    }
+  }
 }

@@ -42,11 +42,11 @@ class produitManager
     // }
     // ==========================================insert dans database======================================================
 
-    public function insert($nomProduit, $description, $prix, $quantity,$image)
+    public function insert($nomProduit, $description, $prix, $quantity, $image)
     {
         $connect = Database::getConnection();
         $stmt = $connect->prepare("insert into produits(nomProduit,description,prix,quantity,image) values(?,?,?,?,?)");
-        $stmt->execute([$nomProduit, $description, $prix, $quantity,$image]);
+        $stmt->execute([$nomProduit, $description, $prix, $quantity, $image]);
     }
 
     // =================================================================================================================
@@ -101,6 +101,27 @@ class produitManager
         </tbody>";
         }
     }
+
+    public function createOrder($userId, $total)
+    {
+        $connect = Database::getConnection();
+        $stmt = $connect->prepare("INSERT INTO commandes (userId, prixTotale, commandeDate) VALUES(?, ?, NOW())");
+        $stmt->execute([$userId, $total]);
+
+        $orderId = $connect->lastInsertId();
+
+        return $orderId;
+    }
+
+    // public function createOrder($userId,$total){
+    //     $connect = Database::getConnection();
+    //     $stmt = $connect->prepare("INSERT INTO commandes (userId,prixTotale,commandeDate) VALUES(?,?,NOW())");
+    //     $stmt->execute([$userId,$total,]);
+    //     $userId = $connect->lastInsertId();
+
+    //     echo $userId;
+
+    // }
 
 
 

@@ -11,3 +11,8 @@ $quantity = $_POST['quantity'];
 $produitManager = new produitManager();
 $produitManager->insert($nomProduit, $description, $prix, $quantity,$image);
 header('Location: /produitGestion/index.php');
+
+
+// =============================
+
+

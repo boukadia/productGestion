@@ -1,5 +1,12 @@
 <?php
 // require_once './database.php';
+session_start();
+if (!isset($_SESSION['userId']) || $_SESSION['role']!=="admin") {
+  header("location: ./classes/login.php");
+} else {
+  # code...
+}
+
 require_once './classes/user.php';
 require_once './classes/produitManager.php';
 require_once './header.php';
@@ -12,6 +19,7 @@ $produits = $produitManager->displayAll();
 
 
 <body>
+  <a href="./classes/logOut.php">log out</a>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-custom">
         <div class="container">
