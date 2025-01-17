@@ -15,16 +15,16 @@ require_once '../header.php';
 
     <div class="container">
         <div class="login-box">
-            <h3>register</h3>
+            <h3>login</h3>
             <form action="../setting/loginVerification.php" method="POST">
 
                 <div class="form-group">
-                    <label for="password">Mot de passe</label>
-                    <input type="password" class="form-control" id="password" name="password" required>
-                </div>
-                <div class="form-group">
                     <label for="email">email</label>
                     <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Mot de passe</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
                 </div>
                 <button nom="submit" type="submit" class="btn btn-custom btn-block">Se connecter</button>
             </form>

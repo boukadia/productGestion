@@ -52,7 +52,7 @@ class user
         header("Location: ./index.php");
         exit();
       } else {
-        echo $user['password'];
+        
 
         header("Location: ./client/affichageProduits.php");
         exit();
